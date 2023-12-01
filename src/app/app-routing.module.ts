@@ -8,6 +8,7 @@ const routes: Routes = [
     path: 'home',
     loadChildren: () =>
       import('./tabs/tabs.module').then((m) => m.TabsPageModule),
+    canLoad: [AuthGuard],
   },
   {
     path: '',
@@ -19,17 +20,16 @@ const routes: Routes = [
     loadChildren: () =>
       import('./login/login.module').then((m) => m.LoginPageModule),
     canLoad: [AutoLoginGuard],
-    // path: 'login',
-    // loadChildren: () => import('./login/login.module').then( m => m.LoginPageModule)
   },
   {
     path: 'dashboard',
     loadChildren: () =>
       import('./dashboard/dashboard.module').then((m) => m.DashboardPageModule),
-    canLoad: [AuthGuard], // Secure all child pages
-    // path: 'dashboard',
-    // loadChildren: () =>
-    //   import('./dashboard/dashboard.module').then((m) => m.DashboardPageModule),
+    canLoad: [AuthGuard],
+  },
+  {
+    path: 'pribadi',
+    loadChildren: () => import('./pribadi/pribadi.module').then( m => m.PribadiPageModule)
   },
 ];
 @NgModule({

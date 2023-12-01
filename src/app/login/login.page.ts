@@ -5,19 +5,21 @@ import { Http } from '@capacitor-community/http';
 import { Preferences } from '@capacitor/preferences';
 const TOKEN_KEY = 'token-saya';
 const USERNAME = 'namasaya';
+const userId = '123'; // Replace with the actual user ID obtained during login
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
 })
-export class LoginPage {
+export class LoginPage  {
   username: any;
   password: any;
   constructor(
     private authService: AuthenticationService,
     private alertController: AlertController
   ) {}
-
+  
   login() {
     if (this.username != null && this.password != null) {
       let url = this.authService.apiURL() + 'proses_login.php';
@@ -37,6 +39,7 @@ export class LoginPage {
             this.password = '';
             localStorage.setItem(TOKEN_KEY, data['data']['token']);
             localStorage.setItem(USERNAME, data['data']['username']);
+            localStorage.setItem(userId, data['data']['id']);
             location.reload();
           } else {
             this.alertController

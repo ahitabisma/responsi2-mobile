@@ -1,13 +1,241 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>dashboard</ion-title>
-  </ion-toolbar>
-</ion-header>
-<ion-content>
-  <ion-item (click)="logout()">
-    <ion-icon slot="start" ios="exit-outline" md="exit-sharp"></ion-icon>
-    <ion-label>Logout</ion-label>
-  </ion-item>
-  <hr />
-  <p>Selamat datang {{ nama }}</p>
-</ion-content>
+<ion-app>
+  <ion-menu contentId="main-content">
+    <ion-header>
+      <ion-toolbar color="primary">
+        <ion-title>Buku Tamu</ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content class="ion-padding">
+      <ion-item>
+        <ion-avatar aria-hidden="true" slot="start">
+          <img
+            alt=""
+            src="https://ionicframework.com/docs/img/demos/avatar.svg"
+          />
+        </ion-avatar>
+        <p>{{ nama }}</p>
+      </ion-item>
+      <!-- <ion-item (click)="pribadi()">
+        <ion-label>Buku Tamu Pribadi</ion-label>
+      </ion-item> -->
+      <ion-item (click)="logout()">
+        <ion-icon slot="start" ios="exit-outline" md="exit-sharp"></ion-icon>
+        <ion-label>Logout</ion-label>
+      </ion-item>
+    </ion-content>
+  </ion-menu>
+  <div class="ion-page" id="main-content">
+    <ion-header>
+      <ion-toolbar color="primary">
+        <ion-buttons slot="start">
+          <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+        <ion-title>Buku Tamu</ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content>
+      <hr />
+      <!-- <p>Selamat datang {{ nama }}</p> -->
+      <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+        <ion-fab-button (click)="open_modal_tambah(true)">
+          <ion-icon name="add-outline"></ion-icon>
+        </ion-fab-button>
+      </ion-fab>
+
+      <ion-card *ngFor="let item of dataTamu">
+        <ion-item>
+          <ion-avatar aria-hidden="true" slot="start">
+            <img
+              alt=""
+              src="https://ionicframework.com/docs/img/demos/avatar.svg"
+            />
+          </ion-avatar>
+          <ion-label>
+            {{item.nama}}
+            <p>{{item.keperluan}}</p>
+            <p>{{item.tanggal_kunjungan}}</p>
+          </ion-label>
+          <ion-button
+            color="warning"
+            expand="block"
+            (click)="open_modal_edit(true,item.id)"
+          >
+            Edit
+            <!-- <ion-icon name="create-outline"></ion-icon> -->
+          </ion-button>
+          <ion-button color="danger" (click)="hapusTamu(item.id)">
+            Hapus
+            <!-- <ion-icon name="trash-outline"></ion-icon> -->
+          </ion-button>
+        </ion-item>
+      </ion-card>
+
+      <!-- ini untuk modal tambah -->
+      <ion-modal [isOpen]="modal_tambah">
+        <ng-template>
+          <ion-header>
+            <ion-toolbar>
+              <ion-buttons slot="start">
+                <ion-button (click)="cancel()">Batal</ion-button>
+              </ion-buttons>
+              <ion-title>Tambah Tamu</ion-title>
+            </ion-toolbar>
+          </ion-header>
+          <ion-content class="ion-padding">
+            <ion-item>
+              <ion-input
+                label="Nama Tamu"
+                labelPlacement="floating"
+                required
+                [(ngModel)]="namaTamu"
+                placeholder="Masukkan Nama Tamu"
+                type="text"
+              >
+              </ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-input
+                label="Alamat Tamu"
+                labelPlacement="floating"
+                required
+                [(ngModel)]="alamat"
+                placeholder="Masukkan Alamat Tamu"
+                type="text"
+              >
+              </ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-input
+                label="No Telepon"
+                labelPlacement="floating"
+                required
+                [(ngModel)]="nomor_telepon"
+                placeholder="Masukkan No_Telepon"
+                type="number"
+              >
+              </ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-input
+                label="Keperluan"
+                labelPlacement="floating"
+                required
+                [(ngModel)]="keperluan"
+                placeholder="Masukkan Keperluan"
+                type="text"
+              >
+              </ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-input
+                label="Tanggal Kunjungan"
+                labelPlacement="floating"
+                required
+                [(ngModel)]="tanggal_kunjungan"
+                placeholder="Masukkan Tanggal Kunjungan"
+                type="date"
+              >
+              </ion-input>
+            </ion-item>
+            <ion-row>
+              <ion-col>
+                <ion-button
+                  type="button"
+                  (click)="tambahTamu()"
+                  color="primary"
+                  shape="full"
+                  expand="block"
+                  >Tambah Tamu
+                </ion-button>
+              </ion-col>
+            </ion-row>
+          </ion-content>
+        </ng-template>
+      </ion-modal>
+
+      <!-- ini untuk modal edit -->
+      <ion-modal [isOpen]="modal_edit">
+        <ng-template>
+          <ion-header>
+            <ion-toolbar>
+              <ion-buttons slot="start">
+                <ion-button (click)="cancel()">Batal</ion-button>
+              </ion-buttons>
+              <ion-title>Edit Tamu</ion-title>
+            </ion-toolbar>
+          </ion-header>
+          <ion-content class="ion-padding">
+            <ion-item>
+              <ion-input
+                label="Nama Tamu"
+                labelPlacement="floating"
+                required
+                [(ngModel)]="namaTamu"
+                placeholder="Masukkan Nama Tamu"
+                type="text"
+              >
+              </ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-input
+                label="Alamat Tamu"
+                labelPlacement="floating"
+                required
+                [(ngModel)]="alamat"
+                placeholder="Masukkan Alamat Tamu"
+                type="text"
+              >
+              </ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-input
+                label="No Telepon"
+                labelPlacement="floating"
+                required
+                [(ngModel)]="nomor_telepon"
+                placeholder="Masukkan No_Telepon"
+                type="number"
+              >
+              </ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-input
+                label="Keperluan"
+                labelPlacement="floating"
+                required
+                [(ngModel)]="keperluan"
+                placeholder="Masukkan Keperluan"
+                type="text"
+              >
+              </ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-input
+                label="Tanggal Kunjungan"
+                labelPlacement="floating"
+                required
+                [(ngModel)]="tanggal_kunjungan"
+                placeholder="Masukkan Tanggal Kunjungan"
+                type="date"
+              >
+              </ion-input>
+            </ion-item>
+            <ion-input required [(ngModel)]="id" type="hidden"> </ion-input>
+            <ion-row>
+              <ion-col>
+                <ion-button
+                  type="button"
+                  (click)="editTamu()"
+                  color="primary"
+                  shape="full"
+                  expand="block"
+                  >Edit Tamu
+                </ion-button>
+              </ion-col>
+            </ion-row>
+          </ion-content>
+        </ng-template>
+      </ion-modal>
+    </ion-content>
+  </div>
+</ion-app>

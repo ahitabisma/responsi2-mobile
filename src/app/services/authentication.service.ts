@@ -7,7 +7,6 @@ const TOKEN_KEY = 'token-saya';
   providedIn: 'root',
 })
 export class AuthenticationService {
-  // Inisialisasi is auth
   isAuthenticated: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
     false
   );
@@ -24,13 +23,6 @@ export class AuthenticationService {
     return true;
   }
   apiURL() {
-    // return 'https://api-auth.dalhaqq.xyz/';
     return 'http://localhost/responsi2/';
   }
-  // logout() {
-  //   this.isAuthenticated.next(false);
-  //   localStorage.clear();
-  //   return true;
-  //   // return Preferences.remove({ key: TOKEN_KEY });
-  // }
 }
